@@ -3,6 +3,7 @@ package org.dubbo.x.service;
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
+import org.dubbo.x.entity.IdEntity;
 import org.dubbo.x.entity.PageSearch;
 import org.dubbo.x.entity.SearchFilter;
 import org.dubbo.x.entity.StatusEntity;
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * @author tom
  */
-public abstract class CURDServiceBase<T extends StatusEntity> implements CURDService<T> {
+public abstract class CURDServiceBase<T extends IdEntity> implements CURDService<T> {
     private final static Logger LOGGER = LoggerFactory.getLogger(CURDServiceBase.class);
     private String token;
 
