@@ -21,6 +21,7 @@ public interface CURDRestService<T> {
     RestResult<List<T>> list(@HeaderParam(ConstantVariable.HEADER_AUTHORIZATION_KEY) String token);
 
     @POST
+    @Path("/page")
     @ApiOperation(value = "分页")
     RestResult<Page<T>> page(@HeaderParam(ConstantVariable.HEADER_AUTHORIZATION_KEY) String token, PageSearch pageSearch);
 
