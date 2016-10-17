@@ -1,5 +1,6 @@
 package org.dubbo.x.service;
 
+import org.dubbo.x.entity.IdEntity;
 import org.dubbo.x.entity.PageSearch;
 import org.springframework.data.domain.Page;
 
@@ -56,4 +57,18 @@ public interface CURDService<T> {
      * @param token
      */
     void setToken(String token);
+
+    /**
+     * 获取 当前用户信息
+     *
+     * @return
+     */
+    IdEntity getCurrentUser();
+
+    /**
+     * 设置 当前用户信息
+     *
+     * @return
+     */
+    void setCurrentUser(IdEntity currentUser);
 }

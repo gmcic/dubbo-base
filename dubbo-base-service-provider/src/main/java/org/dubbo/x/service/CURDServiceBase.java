@@ -2,21 +2,22 @@ package org.dubbo.x.service;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.google.common.collect.Lists;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.StringUtils;
-import org.dubbo.x.entity.IdEntity;
-import org.dubbo.x.entity.PageSearch;
-import org.dubbo.x.entity.SearchFilter;
-import org.dubbo.x.entity.StatusEntity;
+import org.dubbo.x.entity.*;
 import org.dubbo.x.repository.DaoBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
@@ -25,6 +26,17 @@ import java.util.List;
 public abstract class CURDServiceBase<T extends IdEntity> implements CURDService<T> {
     private final static Logger LOGGER = LoggerFactory.getLogger(CURDServiceBase.class);
     private String token;
+    private IdEntity currentUser;
+
+    @Override
+    public IdEntity getCurrentUser() {
+        return currentUser;
+    }
+
+    @Override
+    public void setCurrentUser(IdEntity currentUser) {
+        this.currentUser = currentUser;
+    }
 
     @Override
     public String getToken() {
@@ -102,7 +114,7 @@ public abstract class CURDServiceBase<T extends IdEntity> implements CURDService
 
                     // 将所有条件用 and 联合起来
                     if (!predicates.isEmpty()) {
-                        return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                        return builder.or(predicates.toArray(new Predicate[predicates.size()]));
                     }
                 }
 
@@ -114,9 +126,35 @@ public abstract class CURDServiceBase<T extends IdEntity> implements CURDService
     @Override
     public T createOrUpdte(T entity) {
 
+        if (entity instanceof IdEntity){
+            CUSEntity cusEntity = new CUSEntity();
+            try {
+            if (null == entity.getId()) {
+//                cusEntity.setCreateDate(System.currentTimeMillis());
+//                cusEntity.setCreateUserId(getCurrentUser().getId());
+//                BeanUtils.copyProperties(cusEntity,entity,  "createDate", "createUserId");
+                BeanUtilsBean.getInstance().setProperty(entity, "createDate", System.currentTimeMillis());
+                BeanUtilsBean.getInstance().setProperty(entity, "createUserId", getCurrentUser().getId());
+            }
+
+//            cusEntity.setUpdateDate(System.currentTimeMillis());
+//            cusEntity.setUpdateUserId(getCurrentUser().getId());
+//            BeanUtils.copyProperties(cusEntity,entity,  "updateDate", "updateUserId");
+
+                BeanUtilsBean.getInstance().setProperty(entity, "updateDate", System.currentTimeMillis());
+                BeanUtilsBean.getInstance().setProperty(entity, "updateUserId", getCurrentUser().getId());
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
         getDao().save(entity);
 
-        entity = getDao().findOne(entity.getId());
+//        entity = getDao().findOne(entity.getId());
 
         return entity;
     }

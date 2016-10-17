@@ -4,7 +4,7 @@ package org.dubbo.x.entity;
  * Created by tom on 16/6/29.
  */
 public enum StatusEnum {
-    OK("OK"),DELETE("DELETE");
+    OK("SM00001"),DELETE("DELETE");
 
     private String value;
 
