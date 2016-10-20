@@ -19,6 +19,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -131,10 +132,10 @@ public abstract class CURDServiceBase<T extends IdEntity> implements CURDService
             CUSEntity cusEntity = new CUSEntity();
             try {
                 if (null == entity.getId()) {
-                    BeanUtilsBean.getInstance().setProperty(entity, "createDate", System.currentTimeMillis());
+                    BeanUtilsBean.getInstance().setProperty(entity, "createDate", new Date());
                     BeanUtilsBean.getInstance().setProperty(entity, "createUserId", getCurrentUser().getId());
                 }
-                BeanUtilsBean.getInstance().setProperty(entity, "updateDate", System.currentTimeMillis());
+                BeanUtilsBean.getInstance().setProperty(entity, "updateDate", new Date());
                 BeanUtilsBean.getInstance().setProperty(entity, "updateUserId", getCurrentUser().getId());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
