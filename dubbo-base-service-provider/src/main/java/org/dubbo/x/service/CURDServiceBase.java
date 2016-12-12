@@ -1,8 +1,11 @@
 package org.dubbo.x.service;
 
 import com.alibaba.dubbo.common.utils.CollectionUtils;
+import com.alibaba.dubbo.common.utils.ReflectUtils;
 import com.google.common.collect.Lists;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.lang3.StringUtils;
 import org.dubbo.x.entity.CUSEntity;
 import org.dubbo.x.entity.IdEntity;
@@ -60,7 +63,7 @@ public abstract class CURDServiceBase<T extends IdEntity> implements CURDService
         Sort sort = new Sort(Sort.Direction.fromString("desc"), "createDate");
 
         if (pageSearch.getSort() != null) {
-            sort = new Sort(Sort.Direction.fromString(pageSearch.getSort().getDirection()), pageSearch.getSort().getFieldName());
+            sort = new Sort(Sort.Direction.fromString(pageSearch.getSort().getDirection()), StringUtils.split(pageSearch.getSort().getFieldName(),","));
         }
 
         LOGGER.debug("pageSearch:{}", pageSearch);
@@ -111,6 +114,9 @@ public abstract class CURDServiceBase<T extends IdEntity> implements CURDService
                             case LTE:
                                 predicates.add(builder.lessThanOrEqualTo(expression, (Comparable) filter.value));
                                 break;
+                            case NOT_EQ:
+                                predicates.add(builder.notEqual(expression, (Comparable) filter.value));
+                                break;
                         }
                     }
 
@@ -129,7 +135,6 @@ public abstract class CURDServiceBase<T extends IdEntity> implements CURDService
     public T createOrUpdte(T entity) {
 
         if (entity instanceof IdEntity) {
-            CUSEntity cusEntity = new CUSEntity();
             try {
                 if (null == entity.getId()) {
                     BeanUtilsBean.getInstance().setProperty(entity, "createDate", new Date());
@@ -137,13 +142,10 @@ public abstract class CURDServiceBase<T extends IdEntity> implements CURDService
                 }
                 BeanUtilsBean.getInstance().setProperty(entity, "updateDate", new Date());
                 BeanUtilsBean.getInstance().setProperty(entity, "updateUserId", getCurrentUser().getId());
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                LOGGER.warn("CU set propertie error!");
             }
         }
-
 
         getDao().save(entity);
 

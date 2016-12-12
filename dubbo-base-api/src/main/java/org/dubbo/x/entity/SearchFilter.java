@@ -17,7 +17,7 @@ import java.io.Serializable;
 @ApiModel("搜索过滤条件")
 public class SearchFilter implements Serializable {
     public enum Operator {
-        EQ, LIKE, GT, LT, GTE, LTE
+        EQ, LIKE, GT, LT, GTE, LTE,NOT_EQ;
     }
 
     /**
