@@ -35,6 +35,12 @@ public class PageSearch implements Serializable {
     private List<SearchFilter> filters;
 
     /**
+     * 搜索条件
+     */
+    @ApiModelProperty("搜索条件")
+    private List<SearchFilter> andFilters;
+
+    /**
      * 排序
      */
     @ApiModelProperty("排序")
@@ -72,12 +78,21 @@ public class PageSearch implements Serializable {
         this.sort = sort;
     }
 
+    public List<SearchFilter> getAndFilters() {
+        return andFilters;
+    }
+
+    public void setAndFilters(List<SearchFilter> andFilters) {
+        this.andFilters = andFilters;
+    }
+
     @Override
     public String toString() {
         return "PageSearch{" +
                 "pageSize=" + pageSize +
                 ", pageNumber=" + pageNumber +
                 ", filters=" + filters +
+                ", andFilters=" + andFilters +
                 ", sort=" + sort +
                 '}';
     }
