@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.StringUtils;
 import org.dubbo.x.entity.IdEntity;
+import org.dubbo.x.entity.Idable;
 import org.dubbo.x.entity.PageSearch;
 import org.dubbo.x.entity.SearchFilter;
 import org.dubbo.x.repository.DaoBase;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * @author tom
  */
-public abstract class CURDServiceBase<T extends IdEntity> implements CURDService<T> {
+public abstract class CURDServiceBase<T extends Idable> implements CURDService<T> {
     private final static Logger LOGGER = LoggerFactory.getLogger(CURDServiceBase.class);
     private final static String WHERE_TYPE_AND = "AND";
     private final static String WHERE_TYPE_OR = "OR";
@@ -161,7 +162,7 @@ public abstract class CURDServiceBase<T extends IdEntity> implements CURDService
 
         if (entity instanceof IdEntity) {
             try {
-                if (null == entity.getId()) {
+                if (null == ((IdEntity)entity).getId()) {
                     BeanUtilsBean.getInstance().setProperty(entity, "createDate", new Date());
                     BeanUtilsBean.getInstance().setProperty(entity, "createUserId", getCurrentUser().getId());
                 }

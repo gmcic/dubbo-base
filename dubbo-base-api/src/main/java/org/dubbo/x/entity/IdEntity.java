@@ -19,7 +19,7 @@ import java.io.Serializable;
  */
 // JPA 基类的标识
 @MappedSuperclass
-public abstract class IdEntity implements Serializable {
+public abstract class IdEntity implements Serializable,Idable {
 	protected String id;
 
 	@Id
