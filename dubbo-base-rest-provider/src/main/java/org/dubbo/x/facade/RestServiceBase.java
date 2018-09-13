@@ -1,7 +1,8 @@
 package org.dubbo.x.facade;
 
 import io.swagger.annotations.ApiParam;
-import org.dubbo.x.entity.PageSearch;
+import org.dubbo.x.dto.PageSearch;
+import org.dubbo.x.dto.RestResult;
 import org.dubbo.x.service.CURDService;
 import org.dubbo.x.util.ConstantVariable;
 import org.slf4j.Logger;

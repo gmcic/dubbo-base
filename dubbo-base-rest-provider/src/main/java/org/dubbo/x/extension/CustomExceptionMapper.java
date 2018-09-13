@@ -3,10 +3,12 @@ package org.dubbo.x.extension;
 import com.alibaba.dubbo.rpc.protocol.rest.RestConstraintViolation;
 import com.alibaba.dubbo.rpc.protocol.rest.ViolationReport;
 import com.alibaba.dubbo.rpc.protocol.rest.support.ContentType;
-import org.dubbo.x.entity.RestResultEnum;
+
+import org.dubbo.x.dto.RestResult;
+import org.dubbo.x.dto.RestResultEnum;
 import org.dubbo.x.exception.ApiException;
 import org.dubbo.x.exception.AuthorizationException;
-import org.dubbo.x.facade.RestResult;
+
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -28,7 +30,8 @@ public class CustomExceptionMapper implements ExceptionMapper<Exception> {
     }
 
     private Response handleAuthorizationException(AuthorizationException authorizationException) {
-        return Response.status(Response.Status.UNAUTHORIZED).entity(RestResult.REST_RESULT(RestResultEnum.UNAUTHORIZED,authorizationException.getMessage())).type(ContentType.APPLICATION_JSON_UTF_8).build();
+        return Response.status(Response.Status.UNAUTHORIZED).entity(
+                RestResult.REST_RESULT(RestResultEnum.UNAUTHORIZED, authorizationException.getMessage())).type(ContentType.APPLICATION_JSON_UTF_8).build();
     }
 
     protected Response handleApiException(ApiException apiException) {

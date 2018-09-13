@@ -1,4 +1,4 @@
-package org.dubbo.x.entity;
+package org.dubbo.x.dto;
 
 /**
  * Created by tom on 16/6/27.

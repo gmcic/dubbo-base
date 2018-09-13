@@ -4,10 +4,10 @@ import com.alibaba.dubbo.common.utils.CollectionUtils;
 import com.google.common.collect.Lists;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.StringUtils;
+import org.dubbo.x.dto.PageSearch;
+import org.dubbo.x.dto.SearchFilter;
 import org.dubbo.x.entity.IdEntity;
 import org.dubbo.x.entity.Idable;
-import org.dubbo.x.entity.PageSearch;
-import org.dubbo.x.entity.SearchFilter;
 import org.dubbo.x.repository.DaoBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public abstract class CURDServiceBase<T extends Idable> implements CURDService<T
 
     @Override
     public Page<T> page(PageSearch pageSearch) {
-        Sort sort = new Sort(Sort.Direction.fromString("desc"), "createDate");
+        Sort sort = new Sort(Sort.Direction.fromString("desc"), "id");
 
         if (pageSearch.getSort() != null) {
             sort = new Sort(Sort.Direction.fromString(pageSearch.getSort().getDirection()), StringUtils.split(pageSearch.getSort().getFieldName(),","));

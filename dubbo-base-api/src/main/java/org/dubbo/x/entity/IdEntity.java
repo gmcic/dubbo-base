@@ -5,6 +5,9 @@
  *******************************************************************************/
 package org.dubbo.x.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -15,10 +18,14 @@ import java.io.Serializable;
 
 /**
  * saas模式采用uuid
+ *
  * @author baiqw
  */
 // JPA 基类的标识
 @MappedSuperclass
+@Getter
+@Setter
+@ToString
 public abstract class IdEntity implements Serializable,Idable {
 	protected String id;
 
@@ -28,9 +35,5 @@ public abstract class IdEntity implements Serializable,Idable {
 	@Column(name = "id", length = 36)
 	public String getId() {
 		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 }

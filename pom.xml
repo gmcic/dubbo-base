@@ -29,6 +29,7 @@
     <properties>
         <skip_maven_deploy>true</skip_maven_deploy>
         <dubbo_version>2.8.4</dubbo_version>
+        <lombok.version>1.16.14</lombok.version>
     </properties>
 
 
@@ -40,13 +41,19 @@
                 <artifactId>dubbo</artifactId>
                 <version>2.8.4</version>
             </dependency>
+
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
   <modules>
     <module>dubbo-base-api</module>
-    <module>dubbo-base-rest-provider</module>
     <module>dubbo-base-service-provider</module>
+    <module>dubbo-base-rest-provider</module>
   </modules>
 
 

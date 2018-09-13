@@ -1,7 +1,7 @@
 package org.dubbo.x.service;
 
+import org.dubbo.x.dto.PageSearch;
 import org.dubbo.x.entity.IdEntity;
-import org.dubbo.x.entity.PageSearch;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
